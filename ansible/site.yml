@@ -1,0 +1,23 @@
+---
+- name: Despliegue Automatizado de n8n Community Edition
+  hosts: automation_server
+  tasks:
+    - name: Asegurar que el directorio de datos local exista con los permisos correctos de Docker
+      file:
+        path: "../n8n_data"
+        state: directory
+        owner: "1000"
+        group: "1000"
+        mode: "0755"
+
+    - name: Detener contenedores previos si existen para aplicar cambios en caliente
+      community.docker.docker_compose_v2:
+        project_src: ".."
+        state: absent
+      ignore_errors: true
+
+    - name: Desplegar y levantar el stack de n8n Core
+      community.docker.docker_compose_v2:
+        project_src: ".."
+        state: present
+        pull: always
