@@ -13,12 +13,12 @@ services:
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
       # Conexión al core de datos MySQL (.210)
       - DB_TYPE=${DB_TYPE}
-      - DB_MYSQLDB_HOST=${DB_POSTGRESDB_HOST}  # Mapeado a la IP de la .210
-      - DB_MYSQLDB_PORT=${DB_POSTGRESDB_PORT}  # Mapeado al 3306
-      - DB_MYSQLDB_DATABASE=${DB_POSTGRESDB_DATABASE}
-      - DB_MYSQLDB_USER=${DB_POSTGRESDB_USER}
-      - DB_MYSQLDB_PASSWORD=${DB_POSTGRESDB_PASSWORD}
-      # Llave de cifrado interna de credenciales
+      - DB_MYSQLDB_HOST=${DB_MYSQLDB_HOST}
+      - DB_MYSQLDB_PORT=${DB_MYSQLDB_PORT}
+      - DB_MYSQLDB_DATABASE=${DB_MYSQLDB_DATABASE}
+      - DB_MYSQLDB_USER=${DB_MYSQLDB_USER}
+      - DB_MYSQLDB_PASSWORD=${DB_MYSQLDB_PASSWORD}
+      # Llave de cifrado interna
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
     volumes:
       - ./n8n_data:/home/node/.n8n
