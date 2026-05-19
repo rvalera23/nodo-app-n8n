@@ -10,6 +10,24 @@
         group: "1000"
         mode: "0755"
 
+    # FASE 5: Crear raíz jerárquica corporativa de Backups
+    - name: FASE 5 - Asegurar existencia de la raiz de backups
+      file:
+        path: "../backups"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    # FASE 6: Crear celda específica para n8n_files
+    - name: FASE 6 - Asegurar existencia del directorio de salida n8n_files
+      file:
+        path: "../backups/n8n_files"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
     - name: Detener contenedores previos si existen
       community.docker.docker_compose_v2:
         project_src: ".."
