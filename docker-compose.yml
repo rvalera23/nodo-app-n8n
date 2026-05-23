@@ -11,7 +11,7 @@ services:
       - N8N_PROTOCOL=${N8N_PROTOCOL}
       - WEBHOOK_URL=${WEBHOOK_URL}
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
-      # Conexión al core de datos PostgreSQL (.210)
+      # Conexión al core de datos PostgreSQL
       - DB_TYPE=${DB_TYPE}
       - DB_POSTGRESDB_HOST=${DB_POSTGRESDB_HOST}
       - DB_POSTGRESDB_PORT=${DB_POSTGRESDB_PORT}

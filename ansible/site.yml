@@ -1,5 +1,5 @@
 ---
-- name: Instalación y Configuración Automática de Nodo n8n
+- name: Instalación y Configuración Automática de n8n
   hosts: all
   become: yes
   tasks:
