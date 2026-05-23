@@ -1,41 +1,41 @@
 ---
-- name: Despliegue Automatizado de n8n Community Edition
-  hosts: automation_server
+- name: Instalación y Configuración Automática de Nodo n8n
+  hosts: all
+  become: yes
   tasks:
-    - name: Asegurar que el directorio de datos local exista con los permisos correctos
+    - name: FASE 1 - Instalar Docker y dependencias
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+          - python3-pip
+          - curl
+          - git
+        state: present
+        update_cache: yes
+
+    - name: FASE 2 - Crear carpetas de persistencia y datos
       file:
-        path: "../n8n_data"
+        path: "/opt/servicios/nodo-app-n8n/{{ item }}"
         state: directory
+        mode: '0755'
         owner: "1000"
         group: "1000"
-        mode: "0755"
+      with_items:
+        - 'n8n_data'
 
-    # FASE 5: Crear raíz jerárquica corporativa de Backups
-    - name: FASE 5 - Asegurar existencia de la raiz de backups
+    - name: FASE 3 - Crear estructura de backups
       file:
-        path: "../backups"
+        path: "/opt/servicios/nodo-app-n8n/backups/n8n_files"
         state: directory
-        owner: root
-        group: root
-        mode: "0755"
+        mode: '0755'
+        recurse: yes
 
-    # FASE 6: Crear celda específica para n8n_files
-    - name: FASE 6 - Asegurar existencia del directorio de salida n8n_files
-      file:
-        path: "../backups/n8n_files"
-        state: directory
-        owner: root
-        group: root
-        mode: "0755"
+    - name: FASE 4 - Pull de imagen de n8n
+      shell: "docker pull n8nio/n8n:latest"
 
-    - name: Detener contenedores previos si existen
-      community.docker.docker_compose_v2:
-        project_src: ".."
-        state: absent
-      ignore_errors: true
+    - name: FASE 5 - Lanzamiento del servicio
+      shell: "cd /opt/servicios/nodo-app-n8n && docker compose up -d"
 
-    - name: Desplegar y levantar el stack de n8n Core
-      community.docker.docker_compose_v2:
-        project_src: ".."
-        state: present
-        pull: always
+    - name: FASE 6 - Verificar estado de los contenedores
+      shell: "docker ps | grep n8n"
